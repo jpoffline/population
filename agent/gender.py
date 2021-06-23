@@ -1,5 +1,7 @@
 import random
 
+from params import MALE_FRAC
+
 
 class Genders:
     MALE = "MALE"
@@ -7,12 +9,8 @@ class Genders:
 
 
 class Gender:
-    reproducible = None
-    gender = None
-
-    @property
-    def can_birth(self):
-        return self.reproducible
+    reproducible: bool
+    gender: str
 
     def __str__(self) -> str:
         return self.gender
@@ -23,7 +21,7 @@ class Gender:
     @staticmethod
     def new():
         rand = random.random()
-        if rand < 0.5:
+        if rand < MALE_FRAC:
             return Male()
         return Female()
 
@@ -31,16 +29,10 @@ class Gender:
 class Male(Gender):
 
     gender = Genders.MALE
-
-    @property
-    def can_birth(self):
-        return False
+    reproducible = False
 
 
 class Female(Gender):
 
     gender = Genders.FEMALE
-
-    @property
-    def can_birth(self):
-        return True
+    reproducible = True

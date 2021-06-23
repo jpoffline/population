@@ -1,10 +1,9 @@
 from population.population import Population
+from population.analysis import bucket_ages, pprint_buckets, bucket_genders
 
-agents = Population()
-agents.create_n(10)
-agents.age_agents()
-agents.age_agents()
+population = Population()
+population.create_n(1000)
+population.ticks(40)
 
-for a in agents.agents:
-    print(a)
-print(agents.bucket_ages())
+pprint_buckets(bucket_ages(population))
+print(bucket_genders(population))
