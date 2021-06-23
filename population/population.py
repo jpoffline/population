@@ -39,3 +39,6 @@ class Population:
     def __iter__(self):
         for agent in self.agents:
             yield agent
+
+    def jsonify(self):
+        return [agent.jsonify() for agent in self]

@@ -15,6 +15,7 @@ class Agent:
     health: Health
     parent_id: int
     location: Location
+    generation: int
 
     def __init__(
         self,
@@ -25,6 +26,7 @@ class Agent:
         gender=None,
         just_reproduced=False,
         parent_id=None,
+        generation=None,
     ) -> None:
 
         self.id = id
@@ -35,9 +37,10 @@ class Agent:
         self.just_reproduced = just_reproduced
         self.parent_id = parent_id
         self.child_ids = []
+        self.generation = generation
 
     @staticmethod
-    def new(id, parent_id=None):
+    def new(id, parent_id=None, generation=0):
         new_age = Age.new()
         health = Health.new()
         gender = Gender.new()
@@ -50,6 +53,7 @@ class Agent:
             gender=gender,
             just_reproduced=just_reproduced,
             parent_id=parent_id,
+            generation=generation,
         )
 
     @property
@@ -77,7 +81,7 @@ class Agent:
         return True
 
     def give_birth(self, id):
-        child = Agent.new(id, parent_id=self.id)
+        child = Agent.new(id, parent_id=self.id, generation=self.generation + 1)
         self.child_ids.append(id)
         return child
 
@@ -100,3 +104,15 @@ class Agent:
             f"id={self.id} Age={self.age} {self.can_reproduce} "
             f"Health={self.health} Gender={self.gender} Parent={self.parent_id} Child={self.child_ids}"
         )
+
+    def jsonify(self):
+        return {
+            "id": self.id,
+            "health": self.health.health,
+            "alive": self.alive,
+            "age": self.age.age,
+            "gender": self.gender.gender,
+            "parent_id": self.parent_id,
+            "child_ids": self.child_ids,
+            "generation": self.generation,
+        }
